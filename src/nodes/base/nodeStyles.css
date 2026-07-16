@@ -1,0 +1,380 @@
+/* ── Canvas node cards ───────────────────────────────────── */
+
+.node {
+  --node-accent: #64748b; /* fallback; overridden inline by registry color */
+
+  min-width: 220px;
+  max-width: var(--node-max-width, 280px);
+  border: 1px solid color-mix(in srgb, var(--node-accent) 40%, transparent);
+  border-radius: 12px;
+  background: rgba(10, 15, 30, 0.95);
+  backdrop-filter: blur(12px);
+  color: var(--text-primary, #e8edf5);
+  font-size: 12px;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  transition:
+    box-shadow 0.25s var(--ease-out, ease),
+    border-color 0.25s ease,
+    transform 0.25s var(--ease-out, ease);
+}
+
+.node:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--node-accent) 60%, transparent);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px color-mix(in srgb, var(--node-accent) 25%, transparent),
+    0 0 30px color-mix(in srgb, var(--node-accent) 12%, transparent);
+}
+
+.react-flow__node.selected .node {
+  border-color: color-mix(in srgb, var(--node-accent) 75%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--node-accent) 30%, transparent),
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 40px color-mix(in srgb, var(--node-accent) 18%, transparent);
+}
+
+/* ── Node header ─────────────────────────────────────────── */
+
+.node__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--node-accent) 14%, rgba(10, 15, 30, 0.98)),
+    rgba(10, 15, 30, 0.98)
+  );
+  border-bottom: 1px solid color-mix(in srgb, var(--node-accent) 22%, transparent);
+  border-radius: 11px 11px 0 0;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+}
+
+/* Accent dot — shown when no icon is provided */
+.node__header::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--node-accent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--node-accent) 55%, transparent);
+  flex-shrink: 0;
+}
+
+/* Hide the dot when a real icon element is present */
+.node__header--has-icon::before {
+  display: none;
+}
+
+.node__header-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--node-accent) 18%, transparent);
+  color: var(--node-accent);
+  border: 1px solid color-mix(in srgb, var(--node-accent) 28%, transparent);
+  line-height: 1;
+}
+
+.node__header-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Node body ───────────────────────────────────────────── */
+
+.node__body {
+  padding: 10px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.node__description {
+  color: var(--text-secondary, #8896b0);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* ── Form fields ─────────────────────────────────────────── */
+
+.node__field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.node__field label {
+  color: var(--text-secondary, #8896b0);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.node__field input[type='text'],
+.node__field input[type='number'],
+.node__field select,
+.node__field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7px 10px;
+  border: 1px solid var(--border-default, rgba(148, 163, 184, 0.15));
+  border-radius: var(--radius-sm, 6px);
+  background: var(--bg-input, rgba(6, 10, 20, 0.65));
+  color: var(--text-primary, #e8edf5);
+  font-family: inherit;
+  font-size: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.node__field input[type='text']:focus,
+.node__field input[type='number']:focus,
+.node__field select:focus,
+.node__field textarea:focus {
+  outline: none;
+  border-color: var(--node-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--node-accent) 15%, transparent);
+  background: rgba(6, 10, 20, 0.85);
+}
+
+.node__field input::placeholder {
+  color: var(--text-muted, #5a6882);
+}
+
+.node__field select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' fill='none' stroke='%238896b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 26px;
+}
+
+.node__field textarea {
+  resize: vertical;
+  min-height: 48px;
+  line-height: 1.5;
+}
+
+.node__textarea--auto {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  resize: none;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, width 0.15s ease, height 0.15s ease;
+}
+
+.node__variables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.node__variable-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--node-accent) 12%, transparent);
+  color: color-mix(in srgb, var(--node-accent) 85%, white);
+  border: 1px solid color-mix(in srgb, var(--node-accent) 25%, transparent);
+}
+
+/* ── Toggle switch (checkbox) ────────────────────────────── */
+
+.node__toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.node__toggle {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: rgba(90, 104, 130, 0.25);
+  border: 1px solid var(--border-default, rgba(148, 163, 184, 0.15));
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.node__toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-muted, #5a6882);
+  transition: transform 0.25s var(--ease-out, ease), background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.node__toggle--active {
+  background: color-mix(in srgb, var(--node-accent) 35%, transparent);
+  border-color: color-mix(in srgb, var(--node-accent) 50%, transparent);
+}
+
+.node__toggle--active::after {
+  transform: translateX(16px);
+  background: var(--node-accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--node-accent) 50%, transparent);
+}
+
+.node__toggle-label {
+  font-size: 11px;
+  color: var(--text-secondary, #8896b0);
+  font-weight: 500;
+}
+
+/* ── Range slider ────────────────────────────────────────── */
+
+.node__range-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.node__range {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(90, 104, 130, 0.25);
+  outline: none;
+  border: none;
+  padding: 0;
+}
+
+.node__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--node-accent);
+  cursor: pointer;
+  border: 2px solid rgba(10, 15, 30, 0.9);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--node-accent) 45%, transparent);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.node__range::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--node-accent) 60%, transparent);
+}
+
+.node__range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--node-accent);
+  cursor: pointer;
+  border: 2px solid rgba(10, 15, 30, 0.9);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--node-accent) 45%, transparent);
+}
+
+.node__range::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(90, 104, 130, 0.25);
+  border: none;
+}
+
+.node__range-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--node-accent);
+  min-width: 32px;
+  text-align: right;
+  font-family: var(--font-mono, monospace);
+}
+
+/* ── Color picker ────────────────────────────────────────── */
+
+.node__color-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.node__color-swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm, 6px);
+  border: 2px solid var(--border-default, rgba(148, 163, 184, 0.15));
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: none;
+}
+
+.node__color-swatch:hover {
+  border-color: var(--text-secondary);
+}
+
+.node__color-swatch::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.node__color-swatch::-webkit-color-swatch {
+  border: none;
+  border-radius: calc(var(--radius-sm, 6px) - 2px);
+}
+
+.node__color-swatch::-moz-color-swatch {
+  border: none;
+  border-radius: calc(var(--radius-sm, 6px) - 2px);
+}
+
+.node__color-value {
+  font-size: 11px;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-secondary, #8896b0);
+}
+
+/* ── Connection handles ──────────────────────────────────── */
+
+.node-handle {
+  width: 12px !important;
+  height: 12px !important;
+  border: 2px solid var(--bg-canvas, #080c18) !important;
+  background: var(--node-accent, var(--accent, #818cf8)) !important;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--node-accent, var(--accent)) 35%, transparent) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.node-handle:hover {
+  transform: scale(1.4);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--node-accent, var(--accent)) 20%, transparent),
+    0 0 12px color-mix(in srgb, var(--node-accent, var(--accent)) 40%, transparent) !important;
+}
+
+.react-flow__handle-left.node-handle  { left: -6px !important; }
+.react-flow__handle-right.node-handle { right: -6px !important; }
+.react-flow__handle-top.node-handle   { top: -6px !important; }
+.react-flow__handle-bottom.node-handle{ bottom: -6px !important; }
+
+.react-flow__handle-connecting.node-handle,
+.react-flow__handle-valid.node-handle {
+  background: #4ade80 !important;
+  box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.25), 0 0 12px rgba(74, 222, 128, 0.3) !important;
+}
